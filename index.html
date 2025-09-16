@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Formula Processor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container" role="main">
+        <h1 class="main-title">Logic Formula Processor</h1>
+        
+        <section class="input-section" aria-labelledby="input-heading">
+            <h2 id="input-heading" class="section-title">Input Formula</h2>
+            <div class="input-group">
+                <label for="latex-input" class="input-label">Enter your logic formula:</label>
+                <textarea 
+                    id="latex-input" 
+                    class="latex-input" 
+                    placeholder="Enter your logic formula here... (e.g., ∀x ∃y (P(x) ∨ Q(y)) ∧ (¬P(a) ∨ R(x)))"
+                    aria-describedby="latex-help"
+                    rows="3"
+                ></textarea>
+                <div id="latex-help" class="help-text">
+                    Enter logic formulas with quantifiers (∀, ∃), connectives (∧, ∨, →, ↔, ¬), and predicates.
+                </div>
+                <button 
+                    id="process-btn" 
+                    class="process-btn" 
+                    type="button"
+                    aria-describedby="process-help"
+                >
+                    Process Formula
+                </button>
+                <div id="process-help" class="sr-only">
+                    Click to process the logic formula through all transformation steps.
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section" aria-labelledby="steps-heading">
+            <h2 id="steps-heading" class="section-title">Transformation Steps</h2>
+            
+            <div class="step-block" id="step-original">
+                <h3 class="step-title">Original Formula</h3>
+                <div class="step-content" id="original-content">
+                    <em>Enter a formula above to see the transformation steps</em>
+                </div>
+            </div>
+
+            <div class="step-block" id="step-eliminate-impl">
+                <h3 class="step-title">1. Eliminate Implications</h3>
+                <div class="step-description">Convert → and ↔ to basic connectives (∧, ∨, ¬)</div>
+                <div class="step-content" id="eliminate-impl-content"></div>
+            </div>
+
+            <div class="step-block" id="step-demorgans">
+                <h3 class="step-title">2. Apply De Morgan's Laws</h3>
+                <div class="step-description">Push negations inward using De Morgan's laws</div>
+                <div class="step-content" id="demorgans-content"></div>
+            </div>
+
+            <div class="step-block" id="step-double-neg">
+                <h3 class="step-title">3. Remove Double Negations</h3>
+                <div class="step-description">Eliminate ¬¬A → A</div>
+                <div class="step-content" id="double-neg-content"></div>
+            </div>
+
+            <div class="step-block" id="step-standardize">
+                <h3 class="step-title">4. Standardize Variables</h3>
+                <div class="step-description">Rename bound variables to avoid conflicts</div>
+                <div class="step-content" id="standardize-content"></div>
+            </div>
+
+            <div class="step-block" id="step-prenex">
+                <h3 class="step-title">5. Prenex Normal Form</h3>
+                <div class="step-description">Move all quantifiers to the front</div>
+                <div class="step-content" id="prenex-content"></div>
+            </div>
+
+            <div class="step-block" id="step-skolem">
+                <h3 class="step-title">6. Skolemization</h3>
+                <div class="step-description">Replace existential quantifiers with Skolem functions/constants</div>
+                <div class="step-content" id="skolem-content"></div>
+            </div>
+
+            <div class="step-block" id="step-remove-universal">
+                <h3 class="step-title">7. Remove Universal Quantifiers</h3>
+                <div class="step-description">Drop universal quantifiers (implicit in clause form)</div>
+                <div class="step-content" id="remove-universal-content"></div>
+            </div>
+
+            <div class="step-block" id="step-fnc">
+                <h3 class="step-title">8. First Normal Form (FNC)</h3>
+                <div class="step-description">Convert to conjunctive normal form (conjunction of disjunctions)</div>
+                <div class="step-content" id="fnc-content"></div>
+            </div>
+
+            <div class="step-block" id="step-clauses">
+                <h3 class="step-title">9. Extract Clauses</h3>
+                <div class="step-description">Individual clauses for resolution theorem proving</div>
+                <div class="step-content" id="clauses-content"></div>
+            </div>
+
+            <div class="step-block" id="step-fnc2">
+                <h3 class="step-title">10. FNC</h3>
+                <div class="step-description">FNC from the prenex form</div>
+                <div class="step-content" id="fnc2-content"></div>
+            </div>
+
+            <div class="step-block" id="step-fnd">
+                <h3 class="step-title">11. FND</h3>
+                <div class="step-description">FND from the prenex form</div>
+                <div class="step-content" id="fnd-content"></div>
+            </div>
+
+            <div class="step-block" id="step-horn">
+                <h3 class="step-title">11. Horn</h3>
+                <div class="step-description">Horn Clauses</div>
+                <div class="step-content" id="horn-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="lexer.js"></script>
+    <script src="parser.js"></script>
+    <script src="evaluator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
