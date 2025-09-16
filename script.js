@@ -66,7 +66,7 @@ class FormulaProcessor {
             this.showStep('demorgans-content', evaluator.toString(step2));
 
             await this.delay(300);
-            let step3 = evaluator.removeDoubleNegation(step2);
+            let step3 = step2;
             this.showStep('double-neg-content', evaluator.toString(step3));
 
             await this.delay(300);

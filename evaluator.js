@@ -568,41 +568,6 @@ class Evaluator {
         return node;
     }
 
-    removeDoubleNegation(node) {
-        if (!node) return node;
-
-        if (node.type === "UNIVERSAL" || node.type === "EXISTENCIAL") {
-            return {
-                type: node.type,
-                variable: node.variable,
-                expression: this.removeDoubleNegation(node.expression)
-            }
-        }
-
-        if (node.type === "UNARY_OP" && node.operator === "NEGACAO") {
-            if (node.operand && node.operand.type === "UNARY_OP" && node.operand.operator === "NEGACAO") {
-                return this.removeDoubleNegation(node.operand.operand);
-            }
-        }
-
-        if (node.type === "BINARY_OP") {
-            return {
-                ...node,
-                left: this.removeDoubleNegation(node.left),
-                right: this.removeDoubleNegation(node.right)
-            }
-        }
-
-        if (node.type === "UNARY_OP") {
-            return {
-                ...node,
-                operand: this.removeDoubleNegation(node.operand)
-            }
-        }
-
-        return node
-
-    }
 
     moveQuantifiersToFront(node) {
         const quantifiers = [];
