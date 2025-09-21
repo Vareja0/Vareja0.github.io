@@ -23,7 +23,7 @@ class Evaluator {
 
         const distributed = this.distributeFNC(node);
 
-        return this.flattenConjunctions(distributed);
+        return distributed;
     }
 
     toFND(node) {
@@ -31,7 +31,7 @@ class Evaluator {
 
         const distributed = this.distributeFND(node);
 
-        return this.flattenDisjunctions(distributed);
+        return distributed;
     }
 
     distributeFNC(node) {
@@ -176,70 +176,6 @@ class Evaluator {
         return node;
     }
 
-    flattenConjunctions(node) {
-        if (!node) return node;
-
-        if (node.type === "BINARY_OP" && node.operator === "CONJUNCAO") {
-            const left = this.flattenConjunctions(node.left);
-            const right = this.flattenConjunctions(node.right);
-
-            const conjuncts = [];
-            this.collectConjuncts(left, conjuncts);
-            this.collectConjuncts(right, conjuncts);
-
-            return this.buildConjunction(conjuncts);
-        }
-
-        if (node.type === "BINARY_OP") {
-            return {
-                ...node,
-                left: this.flattenConjunctions(node.left),
-                right: this.flattenConjunctions(node.right)
-            };
-        }
-
-        if (node.type === "UNARY_OP") {
-            return {
-                ...node,
-                operand: this.flattenConjunctions(node.operand)
-            };
-        }
-
-        return node;
-    }
-
-    flattenDisjunctions(node) {
-        if (!node) return node;
-
-        if (node.type === "BINARY_OP" && node.operator === "DISJUNCAO") {
-            const left = this.flattenDisjunctions(node.left);
-            const right = this.flattenDisjunctions(node.right);
-
-            const disjuncts = [];
-            this.collectDisjuncts(left, disjuncts);
-            this.collectDisjuncts(right, disjuncts);
-
-            return this.buildDisjunction(disjuncts);
-        }
-
-        if (node.type === "BINARY_OP") {
-            return {
-                ...node,
-                left: this.flattenDisjunctions(node.left),
-                right: this.flattenDisjunctions(node.right)
-            };
-        }
-
-        if (node.type === "UNARY_OP") {
-            return {
-                ...node,
-                operand: this.flattenDisjunctions(node.operand)
-            };
-        }
-
-        return node;
-    }
-
     collectConjuncts(node, conjuncts) {
         if (node.type === "BINARY_OP" && node.operator === "CONJUNCAO") {
             this.collectConjuncts(node.left, conjuncts);
@@ -302,7 +238,7 @@ class Evaluator {
 
         const cnfExpression = this.toFNC(expression);
 
-        return this.buildPrenexForm(quantifiers, cnfExpression);
+        return cnfExpression;
     }
 
     toDisjunctivePrenexForm(node) {
@@ -312,7 +248,7 @@ class Evaluator {
 
         const dnfExpression = this.toFND(expression);
 
-        return this.buildPrenexForm(quantifiers, dnfExpression);
+        return dnfExpression;
     }
 
 
