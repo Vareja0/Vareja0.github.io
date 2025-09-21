@@ -194,42 +194,6 @@ class Evaluator {
         }
     }
 
-    buildConjunction(conjuncts) {
-        if (conjuncts.length === 1) {
-            return conjuncts[0];
-        }
-
-        let result = conjuncts[0];
-        for (let i = 1; i < conjuncts.length; i++) {
-            result = {
-                type: "BINARY_OP",
-                operator: "CONJUNCAO",
-                left: result,
-                right: conjuncts[i]
-            };
-        }
-
-        return result;
-    }
-
-    buildDisjunction(disjuncts) {
-        if (disjuncts.length === 1) {
-            return disjuncts[0];
-        }
-
-        let result = disjuncts[0];
-        for (let i = 1; i < disjuncts.length; i++) {
-            result = {
-                type: "BINARY_OP",
-                operator: "DISJUNCAO",
-                left: result,
-                right: disjuncts[i]
-            };
-        }
-
-        return result;
-    }
-
 
     toConjunctivePrenexForm(node) {
 
